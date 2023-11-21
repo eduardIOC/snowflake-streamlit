@@ -14,6 +14,10 @@ def get_fruit_load_list():
         my_cur.execute("SELECT * from fruit_load_list")
         return my_cur.fetchall()
 
+def insert_fruit(fruit_choice):
+    with my_cnx.cursor() as my_cur:
+        my_cur.execute("INSERT INTO fruit_load_list values (" + fruit_choice + ")")
+        return 'Thanks for adding ' + fruit_choice
 
 streamlit.title('My parents new Healthy Dinner')
 
@@ -51,5 +55,7 @@ if streamlit.button('Get fruit load list '):
 
 streamlit.header("fruit load list")
 
-fruit_choice = streamlit.text_input('What fruit would you like to add?','jackfruit')
-streamlit.write('The user entered ', fruit_choice)
+fruit_choice = streamlit.text_input('What fruit would you like to add?')
+if streamlit.button('Add a fruit to the list '):
+    inserted_fruit = insert_fruit(fruit_choice)
+    streamlit.text(inserted_fruit)
